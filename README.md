@@ -76,6 +76,16 @@ sentTime - time message was sent
 `400`
 `500`
 
+## mysql message table data model
+- id
+- sender_id
+- recipient_id
+- message
+- sent_time
+- read_time
+- received_time
+- created
+- last_updated
 
 ## 🧪 Requirements
 
