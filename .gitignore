@@ -1,0 +1,13 @@
+# Eclipse
+.project
+.settings
+
+# IDEA Intellij
+.idea
+
+# Node
+node_modules
+
+# Compiled Assets
+dist
+

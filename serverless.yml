@@ -1,0 +1,65 @@
+service: ${env:API_SERVICE_NAME}
+provider:
+  name: aws
+  stage: ${env:STAGE}
+  runtime: nodejs12.x
+  region: ${env:API_AWS_REGION}
+  timeout: 300
+  apiKeys:
+    - ${env:API_KEY}
+  deploymentBucket:
+    name: ${env:SERVERLESS_DEPLOYMENT_BUCKET}
+    serverSideEncryption: AES256
+  deploymentPrefix: ${env:API_SERVICE_NAME}
+package:
+  exclude:
+    - ./**
+  include:
+    - dist/**
+    - node_modules/**
+  individually: true
+custom:
+  prune:
+    automatic: true
+    number: 2
+plugins:
+  - serverless-plugin-optimize
+  - serverless-prune-plugin
+  - serverless-offline
+functions:
+  index:
+    handler: dist/index.handler
+    vpc:
+      securityGroupIds:
+        - ${env:API_SECURITY_GROUP}
+      subnetIds:
+        - ${env:API_SUBNET}
+    environment:
+      loggingApplicationName: ${env:API_SERVICE_NAME}
+      loggingLevel:           ${env:LOGGING_LEVEL}
+      dbPassword:      ${env:API_PASSWORD}
+      dbUsername:      ${env:API_USERNAME}
+      dbHostWrite:     ${env:API_DB_HOST}
+      dbHost:          ${env:API_DB_HOST_READ}
+      dbName:          ${env:API_DATABASE}
+      dbPortWrite:     ${env:API_PORT}
+      dbPort:          ${env:API_PORT_READ}
+    events:
+      - http:
+          path: /user/{userId}/messenger
+          method: get
+          private: true
+          cors: false
+          request:
+            parameters:
+              paths:
+                userId: true
+      - http:
+          path: /user/{userId}/messenger
+          method: post
+          private: true
+          cors: false
+          request:
+            parameters:
+              paths:
+                userId: true

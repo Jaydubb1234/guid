@@ -1,0 +1,5 @@
+---
+    - query: >-
+          INSERT INTO messages (recipient_id, sender_id, message, sent_time)
+          VALUES('994', '963', 'Hope your ok', '2021-03-19 16:36:10')
+      dataFile: "user-messages/saveUser994"

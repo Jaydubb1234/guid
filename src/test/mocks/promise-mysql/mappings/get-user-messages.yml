@@ -1,0 +1,15 @@
+---
+    - query: >-
+          SELECT
+            sender_id,
+            message,
+            time_sent
+          FROM
+            messages
+          WHERE
+            recipient_id = '994'
+          AND
+            time_sent > WHERE NOW() - INTERVAL 30 DAY
+          ORDER BY id DESC
+          LIMIT 0,100
+      dataFile: "user-messages/getUser994"
